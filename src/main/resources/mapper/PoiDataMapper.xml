@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lipan.crud.dao.PoiDataMapper">
+  <resultMap id="BaseResultMap" type="com.lipan.crud.bean.PoiData">
+    <id column="poiId" jdbcType="INTEGER" property="poiid" />
+    <result column="poiLng" jdbcType="VARCHAR" property="poilng" />
+    <result column="poiLat" jdbcType="VARCHAR" property="poilat" />
+    <result column="fileId" jdbcType="INTEGER" property="fileid" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.lipan.crud.bean.PoiData">
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    poiId, poiLng, poiLat, fileId
+  </sql>
+  <sql id="Blob_Column_List">
+    description
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.lipan.crud.bean.PoiDataExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from poidata
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.lipan.crud.bean.PoiDataExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from poidata
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from poidata
+    where poiId = #{poiid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from poidata
+    where poiId = #{poiid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lipan.crud.bean.PoiDataExample">
+    delete from poidata
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lipan.crud.bean.PoiData">
+    insert into poidata (poiId, poiLng, poiLat, 
+      fileId, description)
+    values (#{poiid,jdbcType=INTEGER}, #{poilng,jdbcType=VARCHAR}, #{poilat,jdbcType=VARCHAR}, 
+      #{fileid,jdbcType=INTEGER}, #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lipan.crud.bean.PoiData">
+    insert into poidata
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="poiid != null">
+        poiId,
+      </if>
+      <if test="poilng != null">
+        poiLng,
+      </if>
+      <if test="poilat != null">
+        poiLat,
+      </if>
+      <if test="fileid != null">
+        fileId,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="poiid != null">
+        #{poiid,jdbcType=INTEGER},
+      </if>
+      <if test="poilng != null">
+        #{poilng,jdbcType=VARCHAR},
+      </if>
+      <if test="poilat != null">
+        #{poilat,jdbcType=VARCHAR},
+      </if>
+      <if test="fileid != null">
+        #{fileid,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lipan.crud.bean.PoiDataExample" resultType="java.lang.Long">
+    select count(*) from poidata
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update poidata
+    <set>
+      <if test="record.poiid != null">
+        poiId = #{record.poiid,jdbcType=INTEGER},
+      </if>
+      <if test="record.poilng != null">
+        poiLng = #{record.poilng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poilat != null">
+        poiLat = #{record.poilat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileid != null">
+        fileId = #{record.fileid,jdbcType=INTEGER},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update poidata
+    set poiId = #{record.poiid,jdbcType=INTEGER},
+      poiLng = #{record.poilng,jdbcType=VARCHAR},
+      poiLat = #{record.poilat,jdbcType=VARCHAR},
+      fileId = #{record.fileid,jdbcType=INTEGER},
+      description = #{record.description,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update poidata
+    set poiId = #{record.poiid,jdbcType=INTEGER},
+      poiLng = #{record.poilng,jdbcType=VARCHAR},
+      poiLat = #{record.poilat,jdbcType=VARCHAR},
+      fileId = #{record.fileid,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lipan.crud.bean.PoiData">
+    update poidata
+    <set>
+      <if test="poilng != null">
+        poiLng = #{poilng,jdbcType=VARCHAR},
+      </if>
+      <if test="poilat != null">
+        poiLat = #{poilat,jdbcType=VARCHAR},
+      </if>
+      <if test="fileid != null">
+        fileId = #{fileid,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where poiId = #{poiid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lipan.crud.bean.PoiData">
+    update poidata
+    set poiLng = #{poilng,jdbcType=VARCHAR},
+      poiLat = #{poilat,jdbcType=VARCHAR},
+      fileId = #{fileid,jdbcType=INTEGER},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where poiId = #{poiid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lipan.crud.bean.PoiData">
+    update poidata
+    set poiLng = #{poilng,jdbcType=VARCHAR},
+      poiLat = #{poilat,jdbcType=VARCHAR},
+      fileId = #{fileid,jdbcType=INTEGER}
+    where poiId = #{poiid,jdbcType=INTEGER}
+  </update>
+</mapper>
